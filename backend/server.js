@@ -11,7 +11,8 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-mongoose.connect(getSecret("dbUri"), { useNewUrlParser: true });
+mongoose.connect(getSecret("dbUri"), { useNewUrlParser: true, useFindAndModify: false });
+// https://mongoosejs.com/docs/deprecations.html#-findandmodify-
 let db = mongoose.connection;
 db.once('open', () => console.log('connected to the database'));
 
@@ -26,19 +27,19 @@ router.get("/", (req, res) => {
 });
 
 router.get("/getData", (req, res) => {
-  //console.warn("get: req %j",req);
-  console.warn("get: req.body %j",req.body);
+  //console.warn("get: req.body %j",req.body);
   Data.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
-    console.warn("get ret: data %j",data);
+    //console.warn("get ret: data %j",data);
     return res.json({ success: true, data: data });
   });
 });
 
 router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
+  console.warn("upd: req %j",req.body);
   console.warn(`upd: id ${id} upd ${update}`);
-  Data.findByIdAndUpdate(id, update, (err) => {
+  Data.findOneAndUpdate({'id':id}, update, (err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
@@ -46,7 +47,9 @@ router.post("/updateData", (req, res) => {
 
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
-  Data.findByIdAndRemove(id, (err) => {
+  console.warn("del req.body : %j", req.body)
+  console.warn(`del: id ${id} `);
+  Data.findOneAndRemove({'id':id}, (err) => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });
@@ -56,7 +59,7 @@ router.post("/putData", (req, res) => {
   let data = new Data();
 
   const { id, message } = req.body;
-  console.warn(`put: id ${id} msg ${message}`);
+  // console.warn(`put: id ${id} msg ${message}`);
   if ((!id && id !== 0) || !message) {
     return res.json({
       success: false,

@@ -47,12 +47,18 @@ class App extends Component {
   };
 
   deleteFromDB = idTodelete => {
-    let objIdToDelete = null;
+    // let objIdToDelete = null;
+    // use displayed id directly, not mongo _id
+    let objIdToDelete = idTodelete;
+    /*
+    console.warn("this state data : %j idtodelete %j",this.state.data, idTodelete);
     this.state.data.forEach(dat => {
       if (dat.id === idTodelete) {
-        objIdToDelete = dat._id;
+        console.warn("dat obj %j", dat);
+        objIdToDelete = 2;  //dat.id;
       }
     });
+    */
 
     axios.delete("http://localhost:3001/api/deleteData", {
       data: {
@@ -65,7 +71,7 @@ class App extends Component {
     let objIdToUpdate = null;
     this.state.data.forEach(dat => {
       if (dat.id === idToUpdate) {
-        objIdToUpdate = dat._id;
+        objIdToUpdate = dat.id;
       }
     });
 
