@@ -68,13 +68,16 @@ class App extends Component {
   };
 
   updateDB = (idToUpdate, updateToApply) => {
-    let objIdToUpdate = null;
+    // let objIdToUpdate = null;
+    // use displayed id directly, not mongo _id
+    let objIdToUpdate = idToUpdate;
+    /*
     this.state.data.forEach(dat => {
       if (dat.id === idToUpdate) {
         objIdToUpdate = dat.id;
       }
     });
-
+    */
     axios.post("http://localhost:3001/api/updateData", {
       id: objIdToUpdate,
       update: { message: updateToApply }

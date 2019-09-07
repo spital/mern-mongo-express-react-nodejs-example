@@ -39,7 +39,7 @@ router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   console.warn("upd: req %j",req.body);
   console.warn(`upd: id ${id} upd ${update}`);
-  Data.findOneAndUpdate({'id':id}, update, (err) => {
+  Data.findOneAndUpdate({id:id}, update, {upsert: true}, (err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
