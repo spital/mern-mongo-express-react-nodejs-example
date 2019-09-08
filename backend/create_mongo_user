@@ -1,0 +1,7 @@
+use mydb
+db.createUser({
+    user: 'myUser',
+    pwd: 'MySecretPassword',
+    roles: [{ role: 'readWrite', db:'mydb'}]
+})
+
