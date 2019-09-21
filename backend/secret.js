@@ -1,6 +1,10 @@
+
+//let dbUri = `mongodb://myUser:MySecretPassword@${process.env.REACT_APP_MONGO_IP}:${process.env.REACT_APP_MONGO_PORT}/mydb`
+
 const secrets = {
   // dbUri: "mongodb://jelo:a9bc839993@ds151382.mlab.com:51382/jelotest"
-  dbUri: "mongodb://myUser:MySecretPassword@192.168.1.64:27017/mydb"
+  // dbUri: dbUri
+  dbUri: `mongodb://myUser:MySecretPassword@${process.env.REACT_APP_MONGO_IP}:${process.env.REACT_APP_MONGO_PORT}/mydb`
 };
 
 const getSecret = key => secrets[key];

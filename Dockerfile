@@ -24,4 +24,4 @@ WORKDIR /opt
 RUN npm install
 
 # EXPOSE 3000
-CMD cd /opt && cat backend/create_mongo_user | mongo 192.168.1.64 && npm start
+CMD cd /opt && cat backend/create_mongo_user | mongo $REACT_APP_MONGO_IP && npm start

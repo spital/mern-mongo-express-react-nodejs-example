@@ -37,8 +37,8 @@ router.get("/getData", (req, res) => {
 
 router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
-  console.warn("upd: req %j",req.body);
-  console.warn(`upd: id ${id} upd ${update}`);
+  //console.warn("upd: req %j",req.body);
+  //console.warn(`upd: id ${id} upd ${update}`);
   Data.findOneAndUpdate({id:id}, update, {upsert: true}, (err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
@@ -47,8 +47,8 @@ router.post("/updateData", (req, res) => {
 
 router.delete("/deleteData", (req, res) => {
   const { id } = req.body;
-  console.warn("del req.body : %j", req.body)
-  console.warn(`del: id ${id} `);
+  //console.warn("del req.body : %j", req.body)
+  //console.warn(`del: id ${id} `);
   Data.findOneAndRemove({'id':id}, (err) => {
     if (err) return res.send(err);
     return res.json({ success: true });

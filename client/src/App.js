@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+const api_uri = `http://${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api`;
+
 class App extends Component {
   state = {
     data: [],
@@ -28,7 +30,7 @@ class App extends Component {
   }
 
   getDataFromDb = () => {
-    fetch("http://localhost:3001/api/getData")
+    fetch(`${api_uri}/getData`)
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
@@ -40,7 +42,7 @@ class App extends Component {
       ++idToBeAdded;
     }
 
-    axios.post("http://localhost:3001/api/putData", { 
+    axios.post(`${api_uri}/putData`, {
       id: idToBeAdded,
       message: message
     });
@@ -60,7 +62,7 @@ class App extends Component {
     });
     */
 
-    axios.delete("http://localhost:3001/api/deleteData", {
+    axios.delete(`${api_uri}/deleteData`, {
       data: {
         id: objIdToDelete
       }
@@ -78,7 +80,7 @@ class App extends Component {
       }
     });
     */
-    axios.post("http://localhost:3001/api/updateData", {
+    axios.post(`${api_uri}/updateData`, {
       id: objIdToUpdate,
       update: { message: updateToApply }
     });
@@ -140,6 +142,10 @@ class App extends Component {
             UPDATE
           </button>
         </div>
+
+    <div>
+      <small>You are running this application in <b>{process.env.NODE_ENV}</b> mode.</small>
+    </div>
       </div>
     );
   }
