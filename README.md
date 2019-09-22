@@ -5,7 +5,7 @@ Original source from [Let’s build a full stack MongoDB, React, Node and Expres
 
 Errors fixed, packages upgraded, vulnerabilities corrected, amended with Docker use.
 
-*TODO : use Docker Compose and pass IPs/URLs as config variables.*
+*TODO : use Docker Compose and NginX to proxy ports.*
 
 ## Requirements
 [Install Docker Engine](https://docs.docker.com/install/).
@@ -21,8 +21,6 @@ Please note this is example development build.
 ```bash
 git clone https://github.com/spital/mern-mongo-express-react-nodejs-example
 cd mern-mongo-express-react-nodejs-example
-( Edit IP address in Dockerfile and backend/secret.js )
-( Edit URLs in client/src/App.js )
 docker build -t ern-crud .
 ```
 
@@ -31,7 +29,11 @@ docker build -t ern-crud .
 ```bash
 docker run -d -p 27017:27017  mongo:4-bionic
 sleep 5
-docker run -d -it -p3000:3000 -p3001:3001 ern-crud
+export REACT_APP_MONGO_IP=192.168.1.62
+export REACT_APP_MONGO_PORT=27017
+export REACT_APP_API_IP=localhost
+export REACT_APP_API_PORT=3001
+docker run -d -e REACT_APP_MONGO_IP -e REACT_APP_MONGO_PORT -e REACT_APP_API_IP -e REACT_APP_API_PORT -p3000:3000 -p3001:3001 ern-crud
 ```
 
 ## Use
