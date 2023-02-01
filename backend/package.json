@@ -11,7 +11,7 @@
     "concurrently": "^7.2.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.13.15",
     "morgan": "^1.9.1",
     "nodemon": "^2.0.20"
   }
