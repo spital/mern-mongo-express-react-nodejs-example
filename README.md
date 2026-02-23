@@ -27,9 +27,10 @@ docker build -t ern-crud .
 ## Run
 
 ```bash
-docker run -d -p 27017:27017  mongo:4-bionic
+docker run -d -p 27017:27017 --name mongo7 mongo:7-jammy
 sleep 5
-export REACT_APP_MONGO_IP=192.168.1.62
+docker inspect mongo7 | grep IPAddress
+export REACT_APP_MONGO_IP=172.17.0.5   ## <<== here your ip address
 export REACT_APP_MONGO_PORT=27017
 export REACT_APP_API_IP=localhost
 export REACT_APP_API_PORT=3001

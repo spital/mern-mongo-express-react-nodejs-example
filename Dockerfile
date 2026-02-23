@@ -1,16 +1,19 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 RUN apt update
 RUN apt -y install sudo gnupg wget
 RUN sudo apt-get -y install curl
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 RUN sudo apt-get -y install nodejs gcc g++ make  # npm -v 6.10.2 node -v v12.8.0
 
+
+
 RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
-RUN echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-RUN apt update
-RUN apt -y install mongodb-org-shell
+
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc |  gpg --dearmor | sudo tee /usr/share/keyrings/mongodb.gpg > /dev/null
+RUN echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+RUN sudo apt update
+RUN sudo apt -y install mongodb-org
 
 COPY ./package* /opt/
 COPY backend  /opt/backend
@@ -24,4 +27,4 @@ WORKDIR /opt
 RUN npm install
 
 # EXPOSE 3000
-CMD cd /opt && cat backend/create_mongo_user | mongo $REACT_APP_MONGO_IP && npm start
+CMD cd /opt && cat backend/create_mongo_user | mongosh $REACT_APP_MONGO_IP && npm start
