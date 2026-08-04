@@ -24,6 +24,24 @@ cd mern-mongo-express-react-nodejs-example
 docker build -t ern-crud .
 ```
 
+## Local development
+
+Node 24 is recommended. With `mise` installed:
+
+```bash
+mise use -g node@24
+npm ci
+(cd backend && npm ci)
+(cd client && npm ci)
+npm start
+```
+
+The client runs on http://localhost:3000 and proxies `/api` to the backend on
+port 3001. Set `REACT_APP_MONGO_IP` and `REACT_APP_MONGO_PORT` before starting
+the backend if MongoDB is not running on the default local address. For a
+non-local API, use `VITE_API_URL` or the legacy `REACT_APP_API_IP` and
+`REACT_APP_API_PORT` variables.
+
 ## Run
 
 ```bash
@@ -42,4 +60,3 @@ Start web browser and go to (http://localhost:3000/).
 
 The result shall be something like this :
 ![React example app screenshot](./learn_2019-09-08_20-44.png "React example app screenshot")
-

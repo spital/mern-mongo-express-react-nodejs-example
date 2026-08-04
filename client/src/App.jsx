@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-const api_uri = `http://${process.env.REACT_APP_API_IP}:${process.env.REACT_APP_API_PORT}/api`;
+const env = import.meta.env;
+const configuredApiUrl = env.VITE_API_URL || env.REACT_APP_API_URL;
+const legacyApiHost = env.VITE_API_IP || env.REACT_APP_API_IP;
+const legacyApiPort = env.VITE_API_PORT || env.REACT_APP_API_PORT;
+const api_uri = configuredApiUrl
+  ? `${configuredApiUrl.replace(/\/$/, "")}/api`
+  : legacyApiHost && legacyApiPort
+    ? `http://${legacyApiHost}:${legacyApiPort}/api`
+    : "/api";
 
 class App extends Component {
   state = {
@@ -92,7 +100,7 @@ class App extends Component {
       <div>
         <ul>
           {data.length <= 0 ? "NO DB ENTRIES YET" : data.map(dat => (
-            <li style={{ padding: "10px" }} key={dat}>
+            <li style={{ padding: "10px" }} key={`${dat.id}-${dat._id}`}>
               <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
               <span style={{ color: "gray" }}> data: </span>
               {dat.message}
@@ -144,7 +152,7 @@ class App extends Component {
         </div>
 
     <div>
-      <small>You are running this application in <b>{process.env.NODE_ENV}</b> mode.</small>
+      <small>You are running this application in <b>{env.MODE}</b> mode.</small>
     </div>
       </div>
     );

@@ -2,35 +2,19 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
-    "axios": "*",
-    "react": "*",
-    "react-dom": "*",
-    "react-scripts": "*"
-  },
-  "overrides": {
-    "@svgr/webpack": "^6.2.1"
+    "axios": "^1.19.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.2.1"
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "proxy": "http://localhost:3001",
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview"
   }
 }

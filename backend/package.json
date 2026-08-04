@@ -3,16 +3,20 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
   "dependencies": {
-    "@babel/cli": "*",
-    "@babel/preset-env": "*",
-    "@babel/preset-stage-0": "*",
-    "body-parser": "^1.20.5",
-    "concurrently": "^7.2.1",
     "cors": "^2.8.5",
     "express": "^4.22.2",
     "mongoose": "^6.13.10",
-    "morgan": "^1.11.0",
+    "morgan": "^1.11.0"
+  },
+  "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "overrides": {
+    "body-parser": "^1.20.6"
   }
 }

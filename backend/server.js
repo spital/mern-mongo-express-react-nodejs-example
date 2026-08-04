@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const getSecret = require("./secret");
 const express = require("express");
-var cors = require('cors');
-const bodyParser = require("body-parser");
+const cors = require("cors");
 const logger = require("morgan");
 const Data = require("./data");
 
@@ -11,15 +10,15 @@ const app = express();
 app.use(cors());
 const router = express.Router();
 
-mongoose.connect(getSecret("dbUri"), { useNewUrlParser: true, useFindAndModify: false });
-// https://mongoosejs.com/docs/deprecations.html#-findandmodify-
+mongoose.set("strictQuery", true);
+mongoose.connect(getSecret("dbUri"));
 let db = mongoose.connection;
-db.once('open', () => console.log('connected to the database'));
+db.once("open", () => console.log("connected to the database"));
 
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false, limit: "10kb" }));
+app.use(express.json({ limit: "10kb" }));
 app.use(logger("dev"));
 
 router.get("/", (req, res) => {
@@ -39,7 +38,10 @@ router.post("/updateData", (req, res) => {
   const { id, update } = req.body;
   //console.warn("upd: req %j",req.body);
   //console.warn(`upd: id ${id} upd ${update}`);
-  Data.findOneAndUpdate({id:id}, update, {upsert: true}, (err) => {
+  if (update === null || typeof update !== "object" || typeof update.message !== "string") {
+    return res.status(400).json({ success: false, error: "INVALID UPDATE" });
+  }
+  Data.findOneAndUpdate({ id }, { message: update.message }, { upsert: true }, (err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
